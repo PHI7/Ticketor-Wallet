@@ -1,0 +1,5 @@
+{
+  "name": "Ticketor",
+  "description": "A dark-themed NFT ticket wallet that connects to MetaMask and operates on a custom blockchain. View and manage your event tickets with a sleek, modern interface.",
+  "requestFramePermissions": []
+}
