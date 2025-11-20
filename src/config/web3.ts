@@ -6,9 +6,9 @@ import { defineChain } from '@reown/appkit/networks'
 // 1. DEINE HILBERT HOTEL CHAIN (LOKAL)
 // ============================================
 export const hilbertHotelChain = defineChain({
-  id: 1337, // Muss exakt mit deiner lokalen Chain übereinstimmen
+  id: 18504, // Muss exakt mit deiner lokalen Chain übereinstimmen
   chainNamespace: 'eip155',
-  caipNetworkId: 'eip155:1337',
+  caipNetworkId: 'eip155:18504',
   name: 'Hilbert Hotel Chain',
   nativeCurrency: { 
     name: 'Argentos', 
@@ -24,9 +24,9 @@ export const hilbertHotelChain = defineChain({
     },
   },
   blockExplorers: {
-    default: { 
-      name: 'Local Explorer', 
-      url: 'http://localhost:4000' // Falls du keinen Explorer hast, ist das egal
+    default: {
+      name: 'Hilbert Hotel Chain Explorer',
+      url: 'http://localhost:3000'
     },
   },
   testnet: true,
