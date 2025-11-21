@@ -1,14 +1,12 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { useAccount, useConnect, useDisconnect, useChainId, useSwitchChain } from 'wagmi';
-import { injected } from 'wagmi/connectors';
+import { useAccount, useConnect, useSwitchChain } from 'wagmi';
 import type { NFTTicket } from '../types';
 import { useFetchTickets } from './useFetchTickets';
 import { TICKET_CONTRACT_ADDRESS } from '../src/abi/TicketNFT';
 
 export const useWallet = () => {
   const { address, isConnected, chainId, status } = useAccount();
-  const { connect } = useConnect();
-  const { disconnect } = useDisconnect();
+  const { connectors, connect } = useConnect();
   const { switchChain } = useSwitchChain();
   const [error, setError] = useState<string | null>(null);
   const [networkName, setNetworkName] = useState<string>('Not Connected');
@@ -23,11 +21,16 @@ export const useWallet = () => {
   const connectWallet = useCallback(async () => {
     setError(null);
     try {
-      connect({ connector: injected() });
+      const injectedConnector = connectors.find(c => c.id === 'injected');
+      if (injectedConnector) {
+        connect({ connector: injectedConnector });
+      } else {
+        setError('MetaMask not found. Please install MetaMask.');
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to connect wallet');
     }
-  }, [connect]);
+  }, [connect, connectors]);
 
   // Switch to correct network
   useEffect(() => {
