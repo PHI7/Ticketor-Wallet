@@ -21,13 +21,17 @@ export const useWallet = () => {
   const connectWallet = useCallback(async () => {
     setError(null);
     try {
+      console.log('Available connectors:', connectors);
       const injectedConnector = connectors.find(c => c.id === 'injected');
       if (injectedConnector) {
+        console.log('Connecting with injected connector');
         connect({ connector: injectedConnector });
       } else {
+        console.log('No injected connector found');
         setError('MetaMask not found. Please install MetaMask.');
       }
     } catch (err: any) {
+      console.error('Connection error:', err);
       setError(err.message || 'Failed to connect wallet');
     }
   }, [connect, connectors]);

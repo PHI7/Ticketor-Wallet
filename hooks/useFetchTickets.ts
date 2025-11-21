@@ -10,11 +10,15 @@ export function useFetchTickets() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!isConnected || !address || !publicClient) return;
+    if (!isConnected || !address || !publicClient) {
+      console.log('useFetchTickets: Missing dependencies', { isConnected, address, publicClient: !!publicClient });
+      return;
+    }
 
     const fetchTickets = async () => {
       setIsLoading(true);
       try {
+        console.log('Fetching tickets for address:', address);
         // 1. Get all ticket IDs for this owner
         const ticketIds = await publicClient.readContract({
           address: TICKET_CONTRACT_ADDRESS as `0x${string}`,
@@ -23,6 +27,7 @@ export function useFetchTickets() {
           args: [address],
         });
 
+        console.log('Ticket IDs found:', ticketIds);
         const loadedTickets: NFTTicket[] = [];
 
         // 2. Fetch detailed data for each ticket
